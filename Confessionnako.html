@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CONFESSION NAKO SA IMO 💌</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe3ed, #f9d9ec, #eee0ff, #d9dfff, #e3f5ff, #ffe3ed);
+    background-size: 400% 400%;
+    animation: movingBackground 10s ease-in-out infinite;
+    color: #823b59;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 430px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px 23px;
+    border-radius: 26px;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(185, 91, 133, 0.2);
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.top-flower {
+    font-size: 42px;
+    margin-bottom: 8px;
+}
+
+h1 {
+    font-family: Georgia, serif;
+    color: #d7477b;
+    font-size: 29px;
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #a46780;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.envelope-area {
+    height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0;
+    perspective: 1000px;
+    overflow: visible;
+}
+
+.envelope {
+    position: relative;
+    width: 240px;
+    height: 150px;
+    background: #f5b8ce;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    border-radius: 5px;
+    box-shadow: 0 12px 25px rgba(173, 77, 112, 0.18);
+    transition: transform 0.3s;
+    isolation: isolate;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.envelope:hover {
+    transform: translateY(-3px);
+}
+
+.envelope:focus-visible {
+    outline: 3px solid #d7477b;
+    outline-offset: 6px;
+}
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: #f5b8ce;
+    border-radius: 5px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.letter {
+    position: absolute;
+    width: calc(100% - 24px);
+    height: 125px;
+    left: 12px;
+    bottom: 5px;
+    background: #fffafc;
+    border-radius: 5px 5px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    z-index: 2;
+    transform: translateY(0);
+    transition: transform 1s ease;
+    pointer-events: none;
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: #ffd0df;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transform: rotateX(0deg);
+    transition: transform 0.7s ease;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    background: #ffcddd;
+    clip-path: polygon(0 0, 50% 60%, 100% 0, 100% 100%, 0 100%);
+    border-radius: 5px;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.envelope:not(.open) {
+    overflow: hidden;
+}
+
+.envelope.open {
+    overflow: visible;
+}
+
+.seal {
+    position: absolute;
+    z-index: 6;
+    left: 50%;
+    top: 52px;
+    transform: translateX(-50%);
+    font-size: 36px;
+    line-height: 1;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.envelope.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .letter {
+    transform: translateY(-145px);
+    z-index: 7;
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s,
+                z-index 0s linear 0.25s;
+}
+
+.envelope.open .seal {
+    opacity: 0;
+}
+
+#hint {
+    color: #b16d8b;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+
+#surprise {
+    display: none;
+}
+
+#surprise.show {
+    display: block;
+    animation: fadeUp 1s ease both;
+}
+
+.bouquet-box {
+    position: relative;
+    margin: 5px auto 20px;
+    padding: 20px 8px 16px;
+    background: linear-gradient(180deg, #fff0f6, #ffe0eb);
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+.bouquet {
+    line-height: 1.3;
+    animation: bloom 1.2s ease both;
+    filter: drop-shadow(0 6px 7px #c76c8b20);
+}
+
+.bouquet-image {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.small-flowers {
+    font-size: 25px;
+    letter-spacing: 4px;
+    margin-top: 4px;
+}
+
+.bouquet-caption {
+    font-family: Georgia, serif;
+    font-style: italic;
+    color: #d34b80;
+    margin-top: 12px;
+    font-size: 15px;
+}
+
+.message-card {
+    background: #fff1f6;
+    border: 1px solid #ffe0eb;
+    border-radius: 18px;
+    padding: 23px 17px;
+    line-height: 1.9;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+.message-card h2 {
+    color: #d7477b;
+    font-family: Georgia, serif;
+    font-size: 23px;
+    margin-bottom: 14px;
+}
+
+.message-card p {
+    margin-bottom: 13px;
+}
+
+.message-card p:last-child {
+    margin-bottom: 0;
+}
+
+.signature {
+    color: #d7477b;
+    font-family: Georgia, serif;
+    font-style: italic;
+    margin-top: 16px;
+}
+
+.petal {
+    position: fixed;
+    top: -40px;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    animation: falling linear forwards;
+    will-change: transform, opacity;
+}
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    animation: floating linear forwards;
+}
+
+.footer {
+    margin-top: 22px;
+    color: #b78299;
+    font-size: 12px;
+}
+
+@keyframes movingBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes bloom {
+    0% { transform: scale(0.2) rotate(-15deg); opacity: 0; }
+    70% { transform: scale(1.12) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes falling {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(115vh) rotate(650deg); opacity: 0.1; }
+}
+
+@keyframes floating {
+    0% { transform: translateY(0) scale(0.8); opacity: 0; }
+    15% { opacity: 0.9; }
+    100% { transform: translateY(-110vh) scale(1.3) rotate(25deg); opacity: 0; }
+}
+
+@media (max-width: 380px) {
+    body { padding: 10px; }
+
+    .container { padding: 24px 15px; }
+
+    h1 { font-size: 25px; }
+
+    .envelope { width: 220px; }
+
+    .letter {
+        width: calc(100% - 20px);
+        left: 10px;
+    }
+
+    .bouquet-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .message-card { padding: 20px 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .petal, .heart, .bouquet {
+        animation-duration: 0.01ms !important;
+    }
+
+    .envelope, .letter, .flap, .seal {
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="backgroundMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<main class="container">
+
+    <div class="top-flower">💌</div>
+
+    <h1>Time na para mu confess sa imoha</h1>
+
+    <p class="subtitle">
+        Unta kung unsa imong mabasa<br>
+        don't tell biskang kinsa.
+    </p>
+
+    <div class="envelope-area" id="envelopeArea">
+
+        <button
+            type="button"
+            class="envelope"
+            id="envelope"
+            aria-label="Open the surprise envelope"
+            aria-expanded="false"
+        >
+            <span class="envelope-back"></span>
+            <span class="letter" aria-hidden="true">💐</span>
+            <span class="flap"></span>
+            <span class="envelope-front"></span>
+            <span class="seal">💗</span>
+        </button>
+
+    </div>
+
+    <p id="hint">
+        💌 I click lang ang envelope para ma open,<br>
+        hoping basahon nimo.
+    </p>
+
+    <section id="surprise" aria-live="polite">
+
+        <div class="bouquet-box">
+            <div class="bouquet">
+                <img src="dogflower.png"
+                     alt="Flower bouquet"
+                     class="bouquet-image">
+            </div>
+
+            <div class="small-flowers">🌷 🌸 🌹 🌸 🌷</div>
+
+            <p class="bouquet-caption">
+                A little bouquet, just for you ♡
+            </p>
+        </div>
+
+        <div class="message-card">
+
+            <h2>Hi Mayaaangerrss ♡</h2>
+
+            <p>
+                Kanang kuan yang ba, wala ko kabalo asa nako sugdan pero I know naman
+                nga kabalo ka na gusto tika and naa koy feelings sa imoha kay I know
+                nga napansin nimo akong mga actions towards sa imoha. So yeah gusto jud
+                tika yang and isa sa nagustuhan nako sa imoha is kanang the way ka mu
+                care sa akoa like kanang concern ka sa akong mga gipamati sa lawas pero
+                I know karon dili naka concern kay gahi sad man kog ulo pero magpatuo
+                man sad ko ba basta ikaw mangasaba, I like it kay sa imoha rako nakafeel
+                ug ing ani nga naay concern sa akoa. Then comfy sad kayko basta ikaw akong
+                kauban like dili kanang feeling bitaw nga mapapa yes agad sa lahat pagdating
+                sayo hahahha basta kanang ing ana mao nana. Kabalo jud kaayu si mamon yang
+                kung unsa tika ka gusto like makaingun nalang gud syag "kabigaon jud basta
+                pag abot kay titser" hahhahah, gusto jud tika yang to be honest lang. Di nako
+                ma explain diri jud kung unsa tika ka gusto pero ipamaagi nalang nako sa actions
+                kay diba nga action speaks louder than words hahahaha, dili ni binuang akoa
+                or yaga yaga ra yang ha, tinud anay jud nga gusto tika and ipakita jud nako sa
+                imoha nga tinuod akong ginasulti sa imoha even though di ka mu tuo and di
+                pud katuohan akong nawng, gusto jud tika yang no joke jud ganahan kayko sa imo.
+                Maong ga effort ko sa imoha yang kay gusto nako makita and ma feel nimo nga
+                naa koy feelings sa imoha and gusto tika, more on actions man gud ko kesa vocal.
+            </p>
+
+            <p>
+                Pero anyways, alam ko naman na labo jud sama sa imong giingun nga "dili pwede"
+                pero still it is not my basis, even gamay lang na chance basin diay naa I will
+                definitely take it jud yan biskang unsa pa na ka gamay nga chance I would take
+                a risk jud biskang mag kinaunsa. Gi try man nakog pugngan dati yang pero di jud
+                nako mapugngan yang mu gawas jud sakong gibati nga gusto jud tika, even though
+                some of your actions towards me saying na I should stop, kabalo man ko nga kabalo
+                ka unsa akong pasabot ani. Isa pud yang I know naman daan nga murag wala jud koy
+                chance sa imoha kay I heard some chika na may ka talking ka so even though nakabalo
+                ko ana, I still take the risk baka magiba ihip ng hangin talking pa bitaw hahahaha
+                kidding aside, naa rakoy na dunggan na chika nga naa kay ka talking and katong nag
+                kita sad mo sa imong ex kalimot ko when to kabalo si mamon ato. I didn't ask you
+                to love me back ha, ni confess rako sa akong gi bati sa imoha kesa iluom nako,
+                at least I tried diba? hahahha. Pero bitaw yang gusto jud tika and if naa may
+                biskang gamay nga chance I'll take it jud, and if naa namay nakauna hoping nga
+                mag stay strong mo and ma happy ka sa iyaha.
+            </p>
+
+            <p>
+                So yang kato if unsa may mahitabo or dili nimo ma reciprocate akong na feel sa imoha,
+                no pressure po ha I will accept and respect your decision po. Kung unsa may mahitabo
+                yang after nimo ni mabasa akong confession unta kung unsa man atong pinagsamahan or
+                kung unsa ta mag tinagdanay kay still the same lang gihapon walay mag bag o and if
+                wala jud chance between us, unta still friend gihapon ta and I'll try nga maghinay
+                hinay ug wala akong feelings sa imoha even though wala ko kabalo if makaya nako, pero
+                for the sake nga dili ta awkward mag pinansinay I'll try parin. Happy gihapon ko yang
+                and thankful kay na close tika and nakauban tikag lakaw2 gabiing dako and happy kayko
+                ana at least nakauban man lang tika. Pero yang dili basis sa akoa na porket naa kay
+                ka talking kay mag stop nako, syempre di ko papildi uy gusto gud tika so maningkamot ko
+                magka chance sa imoha and mu effort gihapon ko basin diay puhon magka chance ko diba?
+                hahahaha. Kato ra siguro yang di man nako ma express diri tanan pero yun lang gusto
+                nako isulti nga at least karon kabalo ka nga gusto tika, basin puhon mahatagan kog
+                chance nga makatalk tikag taman nga kita ra duha maka open up ko. No matter it takes,
+                it is what it is nalang jud pero hoping gihapon.
+            </p>
+
+            <p class="signature">— Huaweiii 💗</p>
+
+        </div>
+    </section>
+
+    <div class="footer">Made with love and effort ♡</div>
+
+</main>
+
+<script>
+"use strict";
+
+const envelope = document.getElementById("envelope");
+const envelopeArea = document.getElementById("envelopeArea");
+const hint = document.getElementById("hint");
+const surprise = document.getElementById("surprise");
+const backgroundMusic = document.getElementById("backgroundMusic");
+
+let isOpened = false;
+
+const MUSIC_START_TIME = 80;
+
+backgroundMusic.volume = 0.5;
+
+// Use a native button for more reliable touch and click support.
+envelope.addEventListener("click", openEnvelope);
+
+function openEnvelope() {
+    if (isOpened) return;
+
+    isOpened = true;
+
+    // Animate the envelope immediately.
+    envelope.classList.add("open");
+    envelope.setAttribute("aria-expanded", "true");
+
+    hint.textContent = "Shiibaaall ayaw saba sa lain ha! 💗";
+
+    // Music errors must never prevent the envelope from opening.
+    try {
+        backgroundMusic.currentTime = MUSIC_START_TIME;
+
+        const playPromise = backgroundMusic.play();
+
+        if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(function(error) {
+                console.log("Music could not play:", error);
+            });
+        }
+    } catch (error) {
+        console.log("Music could not play:", error);
+    }
+
+    makePetals();
+
+    setTimeout(function() {
+        envelopeArea.style.display = "none";
+        hint.style.display = "none";
+        surprise.classList.add("show");
+        makeHearts();
+    }, 1600);
+}
+
+function createPetal() {
+    const flowers = ["🌸", "🌷", "🌹", "💗", "💕"];
+    const petal = document.createElement("span");
+
+    petal.className = "petal";
+    petal.textContent = flowers[
+        Math.floor(Math.random() * flowers.length)
+    ];
+
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.fontSize = (15 + Math.random() * 17) + "px";
+    petal.style.animationDuration = (5 + Math.random() * 4) + "s";
+
+    document.body.appendChild(petal);
+
+    petal.addEventListener("animationend", function() {
+        petal.remove();
+    }, { once: true });
+}
+
+function makePetals() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(createPetal, i * 100);
+    }
+
+    // Keep the petals falling while the letter is displayed.
+    const petalInterval = setInterval(createPetal, 400);
+
+    setTimeout(function() {
+        clearInterval(petalInterval);
+    }, 12000);
+}
+
+function makeHearts() {
+    const hearts = ["💗", "💕", "♡", "💖"];
+
+    for (let i = 0; i < 15; i++) {
+        setTimeout(function() {
+            const heart = document.createElement("span");
+
+            heart.className = "heart";
+            heart.textContent = hearts[
+                Math.floor(Math.random() * hearts.length)
+            ];
+
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (15 + Math.random() * 20) + "px";
+            heart.style.animationDuration = (4 + Math.random() * 3) + "s";
+
+            document.body.appendChild(heart);
+
+            heart.addEventListener("animationend", function() {
+                heart.remove();
+            }, { once: true });
+
+        }, i * 250);
+    }
+}
+</script>
+
+</body>
+</html>
